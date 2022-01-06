@@ -1,51 +1,64 @@
 /// --- Set up a system ---
 
-class RotatorSystem {
-  // this group will contain every entity that has a Transform component
-  group = engine.getComponentGroup(Transform)
 
-  update(dt: number) {
-    // iterate over the entities of the group
-    for (let entity of this.group.entities) {
-      // get the Transform component of the entity
-      const transform = entity.getComponent(Transform)
+const cylinder = new Entity()
+cylinder.addComponent(new GLTFShape('models/innerCylinder.glb'))
+//cylinder.addComponent(new BoxShape())
+cylinder.addComponent(new Transform({
+    position: new Vector3(0,1,0),
+    scale: new Vector3(2,2,2)
+}))
 
-      // mutate the rotation
-      transform.rotate(Vector3.Up(), dt * 10)
-    }
-  }
-}
+engine.addEntity(cylinder)
+cylinder.setParent(Attachable.AVATAR)
 
-// Add a new instance of the system to the engine
-engine.addSystem(new RotatorSystem())
 
-/// --- Spawner function ---
+// class RotatorSystem {
+//   // this group will contain every entity that has a Transform component
+//   group = engine.getComponentGroup(Transform)
 
-function spawnCube(x: number, y: number, z: number) {
-  // create the entity
-  const cube = new Entity()
+//   update(dt: number) {
+//     // iterate over the entities of the group
+//     for (let entity of this.group.entities) {
+//       // get the Transform component of the entity
+//       const transform = entity.getComponent(Transform)
 
-  // add a transform to the entity
-  cube.addComponent(new Transform({ position: new Vector3(x, y, z) }))
+//       // mutate the rotation
+//       transform.rotate(Vector3.Up(), dt * 10)
+//     }
+//   }
+// }
 
-  // add a shape to the entity
-  cube.addComponent(new BoxShape())
+// // Add a new instance of the system to the engine
+// engine.addSystem(new RotatorSystem())
 
-  // add the entity to the engine
-  engine.addEntity(cube)
+// /// --- Spawner function ---
 
-  return cube
-}
+// function spawnCube(x: number, y: number, z: number) {
+//   // create the entity
+//   const cube = new Entity()
 
-/// --- Spawn a cube ---
+//   // add a transform to the entity
+//   cube.addComponent(new Transform({ position: new Vector3(x, y, z) }))
 
-const cube = spawnCube(8, 1, 8)
+//   // add a shape to the entity
+//   cube.addComponent(new BoxShape())
 
-cube.addComponent(
-  new OnClick(() => {
-    cube.getComponent(Transform).scale.z *= 1.1
-    cube.getComponent(Transform).scale.x *= 0.9
+//   // add the entity to the engine
+//   engine.addEntity(cube)
 
-    spawnCube(Math.random() * 8 + 1, Math.random() * 8, Math.random() * 8 + 1)
-  })
-)
+//   return cube
+// }
+
+// /// --- Spawn a cube ---
+
+// const cube = spawnCube(8, 1, 8)
+
+// cube.addComponent(
+//   new OnClick(() => {
+//     cube.getComponent(Transform).scale.z *= 1.1
+//     cube.getComponent(Transform).scale.x *= 0.9
+
+//     spawnCube(Math.random() * 8 + 1, Math.random() * 8, Math.random() * 8 + 1)
+//   })
+// )
